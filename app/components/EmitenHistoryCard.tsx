@@ -165,8 +165,8 @@ export default function EmitenHistoryCard({ emiten }: EmitenHistoryCardProps) {
                           : (record.target_realistis && record.max_harga >= record.target_realistis
                             ? 'var(--accent-success)'
                             : (record.harga && record.max_harga > record.harga
-                              ? '#F59E0B' // Orange if reached profit area
-                              : 'var(--accent-warning)'))
+                              ? '#F59E0B'
+                              : 'var(--text-primary)'))
                       }}>
                         {formatNumber(record.max_harga)}
                       </div>
@@ -185,11 +185,13 @@ export default function EmitenHistoryCard({ emiten }: EmitenHistoryCardProps) {
                         fontWeight: 700, 
                         fontVariantNumeric: 'tabular-nums', 
                         fontSize: '0.85rem',
-                        color: record.target_realistis && record.real_harga >= record.target_realistis
-                          ? 'var(--accent-success)'
-                          : (record.harga && record.real_harga > record.harga
-                            ? '#F59E0B' // Yellow/Orange for profit but below target
-                            : 'var(--accent-warning)') // Red for loss
+                        color: record.target_max && record.real_harga >= record.target_max
+                          ? 'var(--accent-warning)'
+                          : (record.target_realistis && record.real_harga >= record.target_realistis
+                            ? 'var(--accent-success)'
+                            : (record.harga && record.real_harga > record.harga
+                              ? '#F59E0B'
+                              : 'var(--text-primary)'))
                       }}>
                         {formatNumber(record.real_harga)}
                       </div>
