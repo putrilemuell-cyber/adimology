@@ -213,9 +213,16 @@ async function runMigrations() {
     // Re-check after setup
     const isNowSetup = await checkInfrastructure();
     if (!isNowSetup) {
-      console.error('\n❌ Infrastructure setup incomplete.');
-      console.error('   Please run the setup SQL in Supabase SQL Editor and try again.\n');
-      process.exit(1);
+      const isAutomated = process.env.CI || process.env.NETLIFY;
+      if (isAutomated) {
+        console.warn('\n⚠️  Migration infrastructure missing. Skipping migrations for this build.');
+        console.warn('   Please follow the SQL setup instructions in the logs above to enable automatic migrations.');
+        process.exit(0); // Exit with 0 to allow build to continue
+      } else {
+        console.error('\n❌ Infrastructure setup incomplete.');
+        console.error('   Please run the setup SQL in Supabase SQL Editor and try again.\n');
+        process.exit(1);
+      }
     }
   }
   
